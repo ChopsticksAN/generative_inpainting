@@ -3,7 +3,7 @@ This is copied project of the paper "Generative Image Inpainting with Contextual
 
 Here are some tips for YJH laotie to get start!
 
-###Steps
+### Steps
 
 - First, you shoud make the environment for this experiment.
 
@@ -32,3 +32,4 @@ Here are some tips for YJH laotie to get start!
   The first arg $—image$ is to load the image dir, and the second one $—checkpoint$ is to load the model that has been trained. You can also change the images' dir or the model's.
 
 - **Pay attention that DONT change any files as well as the test-images in the dir before you have enough confidence to use $git$ commands.**
+
