@@ -26,7 +26,7 @@ Here are some tips for YJH laotie to get start!
   Then, test it !
 
   ``` c++
-  python3 testnew.py --image ./Photos/p1.jpg --checkpoint_dir ./model_logs/Places/
+  python3 testnew.py --image ./Photos/p1.jpg --checkpoint_dir ./model_logs/Places2/
   ```
 
   The first arg **—image** ​ is to load the image dir, and the second one **—checkpoint​** is to load the model that has been trained. You can also change the images' dir or the model's.
