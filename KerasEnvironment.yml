@@ -5,7 +5,7 @@ dependencies:
 
   - pip:
     - opencv-python==4.0.0.21
-    - python=3.6.8=haf84260_0
+    - python==3.6.8=haf84260_0
     - mkl_random=1.0.2=py36h27c97d8_0
     - _tflow_select=2.3.0=mkl
     - absl-py=0.7.0=py36_0
