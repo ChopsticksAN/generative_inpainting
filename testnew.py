@@ -4,6 +4,7 @@ import cv2
 import numpy as np
 import tensorflow as tf
 import neuralgym as ng
+from IPython import embed
 
 from inpaint_model import InpaintCAModel
 
@@ -116,5 +117,8 @@ if __name__ == "__main__":
         print('Model loaded.')
         result = sess.run(output)
         cv2.imwrite(args.output, result[0][:, :, ::-1])
-        cv2.imshow(args.output, result[0][:, :, ::-1])
+        origin = cv2.imread(args.image)
+        origin = cv2.resize(origin, (256, origin.shape[0] * 256 // origin.shape[1]))
+        hitch = np.hstack((origin, image[0], result[0][:,:,::-1]))
+        cv2.imshow("results", hitch)
         cv2.waitKey(0)

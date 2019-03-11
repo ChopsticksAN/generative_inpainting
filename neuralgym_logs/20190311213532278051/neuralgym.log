@@ -1,0 +1,8 @@
+[INFO  2019-03-11 21:35:32 @__init__.py:79] Set root logger. Unset logger with neuralgym.unset_logger().
+[INFO  2019-03-11 21:35:32 @__init__.py:80] Saving logging to file: neuralgym_logs/20190311213532278051.
+[INFO  2019-03-11 21:35:35 @gpus.py:39] Error reading GPU information, set no GPU.
+[DEBUG 2019-03-11 21:35:52 @diff.py:213] diff parser start
+[DEBUG 2019-03-11 21:35:52 @diff.py:224] line_lengths old: 1; new: 1
+[DEBUG 2019-03-11 21:35:52 @diff.py:228] -> code[replace] old[1:1] new[1:1]
+[DEBUG 2019-03-11 21:35:52 @diff.py:341] parse_part from 1 to 1 (to 0 in part parser)
+[DEBUG 2019-03-11 21:35:52 @diff.py:264] diff parser end
