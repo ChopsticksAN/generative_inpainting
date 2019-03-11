@@ -1,5 +1,4 @@
 import argparse
-
 import cv2
 import numpy as np
 import tensorflow as tf
@@ -118,7 +117,8 @@ if __name__ == "__main__":
         result = sess.run(output)
         cv2.imwrite(args.output, result[0][:, :, ::-1])
         origin = cv2.imread(args.image)
-        origin = cv2.resize(origin, (256, origin.shape[0] * 256 // origin.shape[1]))
+        origin = cv2.resize(origin, (image.shape[2], image.shape[1]))
+        #embed()
         hitch = np.hstack((origin, image[0], result[0][:,:,::-1]))
         cv2.imshow("results", hitch)
         cv2.waitKey(0)
