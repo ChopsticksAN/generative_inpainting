@@ -3,7 +3,6 @@ import cv2
 import numpy as np
 import tensorflow as tf
 import neuralgym as ng
-from IPython import embed
 
 from inpaint_model import InpaintCAModel
 
@@ -66,7 +65,13 @@ def erase_img(img) :
     cv2.destroyAllWindows()
     return img, mask
 
-
+def showAndWrite(result) :
+    cv2.imwrite(args.output, result[0][:, :, ::-1])
+    origin = cv2.imread(args.image)
+    origin = cv2.resize(origin, (image.shape[2], image.shape[1]))
+    hitch = np.hstack((origin, image[0], result[0][:,:,::-1]))
+    cv2.imshow("results", hitch)
+    cv2.waitKey(0)
 
 if __name__ == "__main__":
     ng.get_gpus(1)
@@ -76,14 +81,7 @@ if __name__ == "__main__":
     ori_image = cv2.imread(args.image)
     ori_image = cv2.resize(ori_image, (256, ori_image.shape[0] * 256 // ori_image.shape[1]))
     image, mask = erase_img(ori_image)
-    #mask = cv2.imread(args.mask)
-    #image = cv2.resize(image, (mask.shape[1], mask.shape[0]))
     assert image.shape == mask.shape
-    #cv2.imshow('orig', ori_image)
-    #cv2.waitKey(0)
-    #cv2.imshow('img', image)
-    #cv2.imshow('mask', mask)
-    #cv2.waitKey(0)
 
 
     h, w, _ = image.shape
@@ -115,10 +113,5 @@ if __name__ == "__main__":
         sess.run(assign_ops)
         print('Model loaded.')
         result = sess.run(output)
-        cv2.imwrite(args.output, result[0][:, :, ::-1])
-        origin = cv2.imread(args.image)
-        origin = cv2.resize(origin, (image.shape[2], image.shape[1]))
-        #embed()
-        hitch = np.hstack((origin, image[0], result[0][:,:,::-1]))
-        cv2.imshow("results", hitch)
-        cv2.waitKey(0)
+        showAndWrite(result)
+

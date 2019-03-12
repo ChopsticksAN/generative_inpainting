@@ -1,0 +1,2 @@
+[INFO  2019-03-12 18:49:09 @__init__.py:79] Set root logger. Unset logger with neuralgym.unset_logger().
+[INFO  2019-03-12 18:49:09 @__init__.py:80] Saving logging to file: neuralgym_logs/20190312184909640885.
