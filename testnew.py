@@ -6,7 +6,6 @@ import neuralgym as ng
 
 from inpaint_model import InpaintCAModel
 
-
 parser = argparse.ArgumentParser()
 parser.add_argument('--image', default='', type=str,
                     help='The filename of image to be completed.')
