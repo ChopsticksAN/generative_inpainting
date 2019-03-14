@@ -1,2 +1,2 @@
-python3 testnew.py --image ./Photos/nw7.jpg --checkpoint_dir ./model_logs/Places2/
+python3 testnew.py --image ./Photos/ --checkpoint_dir ./model_logs/Places2/
 
