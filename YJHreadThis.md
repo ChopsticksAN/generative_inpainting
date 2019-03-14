@@ -26,10 +26,9 @@ Here are some tips for YJH laotie to get start!
   Then, test it !
 
   ``` c++
-  python3 testnew.py --image ./Photos/p1.jpg --checkpoint_dir ./model_logs/Places2/
+  python3 testnew.py --image ./Photos/ --checkpoint_dir ./model_logs/Places2/
   ```
 
-  The first arg **—image** ​ is to load the image dir, and the second one **—checkpoint​** is to load the model that has been trained. You can also change the images' dir or the model's.
-
+  The first arg **—image** ​ is to load the path that contain the image, and the second one **—checkpoint​** is to load the model that has been trained. You can also change the images' dir or the model's. When running, it will automatically find the image in the ".jpg", ".png" format under the current folder, and if you want to continue pressing Enter, otherwise press N to stop.
 - **Pay attention that DONT change any files as well as the test-images in the dir before you have enough confidence to use git commands.**
 
