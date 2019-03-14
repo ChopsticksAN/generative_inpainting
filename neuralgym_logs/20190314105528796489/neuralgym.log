@@ -1,0 +1,4 @@
+[INFO  2019-03-14 10:55:28 @__init__.py:79] Set root logger. Unset logger with neuralgym.unset_logger().
+[INFO  2019-03-14 10:55:28 @__init__.py:80] Saving logging to file: neuralgym_logs/20190314105528796489.
+[INFO  2019-03-14 10:55:30 @gpus.py:39] Error reading GPU information, set no GPU.
+[INFO  2019-03-14 10:55:44 @gpus.py:39] Error reading GPU information, set no GPU.

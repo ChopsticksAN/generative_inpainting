@@ -1,4 +1,5 @@
 import argparse
+import os
 import cv2
 import numpy as np
 import tensorflow as tf
@@ -64,53 +65,59 @@ def erase_img(img) :
     cv2.destroyAllWindows()
     return img, mask
 
-def showAndWrite(result) :
+def showAndWrite(result, img_dir) :
     cv2.imwrite(args.output, result[0][:, :, ::-1])
-    origin = cv2.imread(args.image)
+    origin = cv2.imread(img_dir)
     origin = cv2.resize(origin, (image.shape[2], image.shape[1]))
     hitch = np.hstack((origin, image[0], result[0][:,:,::-1]))
     cv2.imshow("results", hitch)
     cv2.waitKey(0)
-
-if __name__ == "__main__":
-    ng.get_gpus(1)
-    args = parser.parse_args()
-
-    model = InpaintCAModel()
-    ori_image = cv2.imread(args.image)
-    ori_image = cv2.resize(ori_image, (256, ori_image.shape[0] * 256 // ori_image.shape[1]))
-    image, mask = erase_img(ori_image)
-    assert image.shape == mask.shape
+    cv2.destroyAllWindows()
 
 
-    h, w, _ = image.shape
-    grid = 8
-    image = image[:h//grid*grid, :w//grid*grid, :]
-    mask = mask[:h//grid*grid, :w//grid*grid, :]
-    print('Shape of image: {}'.format(image.shape))
+args = parser.parse_args()
+cnt = 0
+for filename in os.listdir(r"" + args.image): 
+	if __name__ == "__main__":
+		if cnt > 0 :
+			print("Whether to continue : (Y/N)")
+			option = input();
+			if option != 'Y' and option != 'y': break
+		tf.reset_default_graph() 
+		cnt = cnt + 1
+		ng.get_gpus(1)
+		model = InpaintCAModel()
+		img_dir = args.image + filename
+		ori_image = cv2.imread(args.image + filename)
+		ori_image = cv2.resize(ori_image, (256, ori_image.shape[0] * 256 // ori_image.shape[1]))
+		image, mask = erase_img(ori_image)
+		assert image.shape == mask.shape
+		h, w, _ = image.shape
+		grid = 8
+		image = image[:h//grid*grid, :w//grid*grid, :]
+		mask = mask[:h//grid*grid, :w//grid*grid, :]
+		image = np.expand_dims(image, 0)
+		mask = np.expand_dims(mask, 0)
+		input_image = np.concatenate([image, mask], axis=2)
+		sess_config = tf.ConfigProto()
+		sess_config.gpu_options.allow_growth = True
+		with tf.Session(config=sess_config) as sess:
+			input_image = tf.constant(input_image, dtype=tf.float32)
+			output = model.build_server_graph(input_image)
+			output = (output + 1.) * 127.5
+			output = tf.reverse(output, [-1])
+			output = tf.saturate_cast(output, tf.uint8)
+			# load pretrained model
+			vars_list = tf.get_collection(tf.GraphKeys.GLOBAL_VARIABLES)
+			assign_ops = []
+			for var in vars_list:
+				vname = var.name
+				from_name = vname
+				var_value = tf.contrib.framework.load_variable(args.checkpoint_dir, from_name)
+				assign_ops.append(tf.assign(var, var_value))
+			sess.run(assign_ops)
+			print('Model loaded.')
+			result = sess.run(output)
+			showAndWrite(result, img_dir)
 
-    image = np.expand_dims(image, 0)
-    mask = np.expand_dims(mask, 0)
-    input_image = np.concatenate([image, mask], axis=2)
-
-    sess_config = tf.ConfigProto()
-    sess_config.gpu_options.allow_growth = True
-    with tf.Session(config=sess_config) as sess:
-        input_image = tf.constant(input_image, dtype=tf.float32)
-        output = model.build_server_graph(input_image)
-        output = (output + 1.) * 127.5
-        output = tf.reverse(output, [-1])
-        output = tf.saturate_cast(output, tf.uint8)
-        # load pretrained model
-        vars_list = tf.get_collection(tf.GraphKeys.GLOBAL_VARIABLES)
-        assign_ops = []
-        for var in vars_list:
-            vname = var.name
-            from_name = vname
-            var_value = tf.contrib.framework.load_variable(args.checkpoint_dir, from_name)
-            assign_ops.append(tf.assign(var, var_value))
-        sess.run(assign_ops)
-        print('Model loaded.')
-        result = sess.run(output)
-        showAndWrite(result)
 
